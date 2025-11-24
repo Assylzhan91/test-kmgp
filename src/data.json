@@ -1,0 +1,14 @@
+{
+  "products": [
+    { "id": 1, "sku": "P-001", "title": "Ноутбук", "price": 120000, "stock": 5, "updatedAt": "2025-04-15T08:00:00Z"},
+    { "id": 2, "sku": "P-002", "title": "Мышь", "price": 5000, "stock": 20, "updatedAt":"2025-08-15T08:00:00Z"}
+    ],
+    "orders": [
+      { "id": 1, "number": "ORD-001", "customerName": "Иван Иванов", "status": "new",
+          "items": [{ "productId": 1, "qty": 1, "price": 120000 }],
+          "total": 120000, "createdAt": "2025-08-15T08:00:00Z" },
+        { "id": 2, "number": "ORD-002", "customerName": "Пётр Петров", "status": "processing",
+          "items": [{ "productId": 2, "qty": 2, "price": 5000 }],
+          "total": 10000, "createdAt": "2025-08-16T09:30:00Z" }
+      ]
+}
