@@ -1,6 +1,9 @@
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {  Router } from '@angular/router';
+
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +13,9 @@ import { CommonModule } from '@angular/common';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
+  private readonly authService = inject(AuthService);
   private readonly fb = inject(FormBuilder);
+  private readonly router = inject(Router);
 
   readonly isLoading = signal(false);
 
@@ -20,16 +25,16 @@ export class LoginComponent {
   });
 
   onSubmit(): void {
-    if (this.loginForm.invalid) {
-      this.loginForm.markAllAsTouched();
-      return;
-    }
     this.isLoading.set(true);
     setTimeout(() => {
+      const { email, password } = this.loginForm.getRawValue();
+      const success = this.authService.login({ email, password });
 
-      // Authenticated
+      if (success) {
+        this.router.navigate(['/orders']).then();
+      }
       this.isLoading.set(false);
-    }, 500);
+    }, 1000);
   }
 
   get emailControl() {

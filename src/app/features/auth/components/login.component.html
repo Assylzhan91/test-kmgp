@@ -51,7 +51,7 @@
       <button
         type="submit"
         class="btn btn-primary"
-        [disabled]="isLoading()"
+        [disabled]="!loginForm.valid"
       >
         @if (isLoading()) {
           <span class="spinner"></span>

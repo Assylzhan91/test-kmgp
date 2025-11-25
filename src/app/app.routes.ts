@@ -7,7 +7,11 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
+    path: 'orders',
+    loadChildren: () => import('./features/orders/orders.routes').then(m => m.ORDERS_ROUTES),
+  },
+  {
     path: 'auth',
-    loadChildren: () => import('./feature/auth/auth.routes').then(c => c.AUTH_ROUTES),
+    loadChildren: () => import('./features/auth/auth.routes').then(c => c.AUTH_ROUTES),
   },
 ];
