@@ -1,0 +1,69 @@
+<div class="login-container">
+  <div class="login-card">
+    <h1 class="login-title">Кабинет заказов</h1>
+    <p class="login-subtitle">Войдите в систему</p>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+      <div class="form-group">
+        <label for="email" class="form-label">Email</label>
+        <input
+          type="email"
+          id="email"
+          formControlName="email"
+          class="form-input"
+          [class.error]="emailControl.invalid && emailControl.touched"
+          placeholder="example@mail.com"
+          autocomplete="email"
+        />
+        @if (emailControl.invalid && emailControl.touched) {
+          <span class="error-message">
+            @if (emailControl.errors?.['required']) {
+              Email обязателен
+            } @else if (emailControl.errors?.['email']) {
+              Введите корректный email
+            }
+          </span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="password" class="form-label">Пароль</label>
+        <input
+          type="password"
+          id="password"
+          formControlName="password"
+          class="form-input"
+          [class.error]="passwordControl.invalid && passwordControl.touched"
+          placeholder="Введите пароль"
+          autocomplete="current-password"
+        />
+        @if (passwordControl.invalid && passwordControl.touched) {
+          <span class="error-message">
+            @if (passwordControl.errors?.['required']) {
+              Пароль обязателен
+            } @else if (passwordControl.errors?.['minlength']) {
+              Минимум 3 символа
+            }
+          </span>
+        }
+      </div>
+
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="isLoading()"
+      >
+        @if (isLoading()) {
+          <span class="spinner"></span>
+          Вход...
+        } @else {
+          Войти
+        }
+      </button>
+    </form>
+
+    <p class="login-hint">
+      Подсказка: введите любой email и пароль (мин. 3 символа)
+    </p>
+  </div>
+</div>
