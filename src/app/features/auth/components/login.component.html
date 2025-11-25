@@ -48,11 +48,7 @@
         }
       </div>
 
-      <button
-        type="submit"
-        class="btn btn-primary"
-        [disabled]="!loginForm.valid"
-      >
+      <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid">
         @if (isLoading()) {
           <span class="spinner"></span>
           Вход...
@@ -62,8 +58,6 @@
       </button>
     </form>
 
-    <p class="login-hint">
-      Подсказка: введите любой email и пароль (мин. 3 символа)
-    </p>
+    <p class="login-hint">Подсказка: введите любой email и пароль (мин. 3 символа)</p>
   </div>
 </div>

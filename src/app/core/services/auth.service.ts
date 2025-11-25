@@ -1,10 +1,5 @@
-import { Injectable, signal } from '@angular/core';
-import {
-  User,
-  LoginCredentials,
-  AUTH_TOKEN_KEY,
-  AUTH_USER_KEY,
-} from '../models/auth.models';
+import { computed, Injectable, signal } from '@angular/core';
+import { User, LoginCredentials, AUTH_TOKEN_KEY, AUTH_USER_KEY } from '../models/auth.models';
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +7,8 @@ import {
 export class AuthService {
   private readonly userSignal = signal<User | null>(this.loadUserFromStorage());
   private readonly tokenSignal = signal<string | null>(this.loadTokenFromStorage());
+
+  readonly isAuthenticated = computed(() => !!this.tokenSignal());
 
   login(credentials: LoginCredentials): boolean {
     const fakeUser: User = {
@@ -30,6 +27,9 @@ export class AuthService {
     return true;
   }
 
+  getToken(): string | null {
+    return this.tokenSignal();
+  }
 
   private loadTokenFromStorage(): string | null {
     return localStorage.getItem(AUTH_TOKEN_KEY);

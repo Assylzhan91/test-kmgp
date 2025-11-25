@@ -8,7 +8,6 @@ export const AUTH_ROUTES: Routes = [
   },
   {
     path: 'login',
-    loadComponent: () =>
-      import('./components/login.component').then(c => c.LoginComponent),
+    loadComponent: () => import('./components/login.component').then(c => c.LoginComponent),
   },
 ];
