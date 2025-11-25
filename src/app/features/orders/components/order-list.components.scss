@@ -1,0 +1,32 @@
+.list-wrapper {
+  display: flex;
+  height: 100%;
+
+  &--full-height {
+    height: 100%;
+  }
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.spinner {
+  margin: auto;
+}
+.pagination {
+  margin-top: auto;
+}
+
+table {
+  width: 100%;
+}
+
+tr.mat-mdc-footer-row {
+  font-weight: bold;
+}
+
+.mat-mdc-table-sticky {
+  border-top: 1px solid #e0e0e0;
+}
