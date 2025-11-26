@@ -9,6 +9,6 @@ export const ORDERS_ROUTES: Routes = [
   {
     path: '',
     loadComponent: () =>
-      import('./components/order-list.components').then(c => c.OrderListComponents),
+      import('./components/order-list.components').then(c => c.OrderListComponent),
   },
 ];

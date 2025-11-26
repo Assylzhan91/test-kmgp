@@ -1,4 +1,4 @@
-import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
-  selector: 'app-login',
+  selector: 'kmgp-login',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './login.component.html',
@@ -37,11 +37,11 @@ export class LoginComponent {
     }, 1000);
   }
 
-  get emailControl() {
+  get emailControl(): FormControl<string> {
     return this.loginForm.controls.email;
   }
 
-  get passwordControl() {
+  get passwordControl(): FormControl<string> {
     return this.loginForm.controls.password;
   }
 }
