@@ -1,27 +1,76 @@
-# TestKmgp
+# test-kmgp
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.7.
+Angular-приложение для управления заказами.
 
-## Development server
+## 🔗 Репозиторий
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+[https://github.com/Assylzhan91/test-kmgp](https://github.com/Assylzhan91/test-kmgp)
 
-## Code scaffolding
+## 📋 Требования
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- **Node.js**: v24.0.2 или выше
+- **NPM**: 11.6.2 или выше
 
-## Build
+## 🚀 Установка и запуск
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+### Установка зависимостей
 
-## Running unit tests
+```bash
+npm install
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### Команды для запуска
 
-## Running end-to-end tests
+#### Запуск dev-сервера
+```bash
+npm start
+```
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Приложение будет доступно по адресу `http://localhost:4200/`
 
-## Further help
+#### Сборка проекта
+```bash
+npm run build
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Файлы сборки будут находиться в директории `dist/`
+
+#### Форматирование кода
+```bash
+npm run format
+```
+
+#### Исправление ошибок ESLint
+```bash
+npm run lint:fix
+```
+
+#### Git commit с Commitizen
+```bash
+npm run commit
+```
+
+## 🛠️ Технологии
+
+- **Angular**: 18.2.0
+- **Angular Material**: 18.2.14
+- **TypeScript**: 5.5.2
+- **RxJS**: 7.8.0
+- **ESLint**: 9.39.1
+- **Prettier**: 3.6.2
+- **Husky**: 9.1.7
+
+## 📦 Структура проекта
+
+```
+test-kmgp/
+├── src/
+│   ├── app/
+│   │   ├── components/
+│   │   ├── services/
+│   │   └── ...
+│   ├── assets/
+│   └── ...
+├── package.json
+└── README.md
+```
