@@ -66,8 +66,8 @@ npm run commit
 test-kmgp/
 ├── src/
 │   ├── app/
-│   │   ├── components/
-│   │   ├── services/
+│   │   ├── core/
+│   │   ├── features/
 │   │   └── ...
 │   ├── assets/
 │   └── ...
