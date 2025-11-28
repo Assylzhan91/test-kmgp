@@ -17,6 +17,7 @@ import { of } from 'rxjs';
 
 import { OrderService } from '../../../core/services/order.service';
 import { Order } from '../../../core/models/orders.models';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'kmgp-orders-list',
@@ -39,8 +40,9 @@ import { Order } from '../../../core/models/orders.models';
   styleUrl: './order-list.components.scss',
 })
 export class OrderListComponent implements OnInit, AfterViewInit {
-  private destroyRef = inject(DestroyRef);
-  orderService = inject(OrderService);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly orderService = inject(OrderService);
+  protected readonly authService = inject(AuthService);
 
   loading = true;
   totalOrders = 0;

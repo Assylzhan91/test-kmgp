@@ -87,6 +87,12 @@
       }
     }
   }
+
+  &-logout {
+    display: flex;
+    margin-left: 10px;
+    cursor: pointer;
+  }
 }
 
 .table-wrapper {

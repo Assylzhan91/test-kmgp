@@ -1,10 +1,13 @@
-import { computed, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { User, LoginCredentials, AUTH_TOKEN_KEY, AUTH_USER_KEY } from '../models/auth.models';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  private readonly router = inject(Router);
+
   private readonly userSignal = signal<User | null>(this.loadUserFromStorage());
   private readonly tokenSignal = signal<string | null>(this.loadTokenFromStorage());
 
@@ -45,5 +48,13 @@ export class AuthService {
       }
     }
     return null;
+  }
+
+  logout(): void {
+    this.userSignal.set(null);
+    this.tokenSignal.set(null);
+    localStorage.removeItem(AUTH_TOKEN_KEY);
+    localStorage.removeItem(AUTH_USER_KEY);
+    this.router.navigate(['/auth/login']).then();
   }
 }

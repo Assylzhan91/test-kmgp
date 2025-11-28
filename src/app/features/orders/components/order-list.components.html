@@ -20,6 +20,11 @@
         <mat-icon matPrefix>search</mat-icon>
         <input matInput [formControl]="searchControl" placeholder="Поиск по клиенту" />
       </mat-form-field>
+
+      <div class="orders-header-logout" (click)="authService.logout()">
+        Выйти
+        <mat-icon>exit_to_app</mat-icon>
+      </div>
     </div>
 
     @if (orders.data.length) {

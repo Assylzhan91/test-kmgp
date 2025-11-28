@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../../../core/services/auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'kmgp-login',
@@ -14,6 +15,7 @@ import { AuthService } from '../../../core/services/auth.service';
 })
 export class LoginComponent {
   private readonly authService = inject(AuthService);
+  private readonly _snackBar = inject(MatSnackBar);
   private readonly fb = inject(FormBuilder);
   private readonly router = inject(Router);
 
@@ -31,6 +33,7 @@ export class LoginComponent {
       const success = this.authService.login({ email, password });
 
       if (success) {
+        this.openSnackBar();
         this.router.navigate(['/orders']).then();
       }
       this.isLoading.set(false);
@@ -43,5 +46,12 @@ export class LoginComponent {
 
   get passwordControl(): FormControl<string> {
     return this.loginForm.controls.password;
+  }
+  openSnackBar(): void {
+    this._snackBar.open('Добро пожаловать!', '', {
+      horizontalPosition: 'right',
+      verticalPosition: 'top',
+      duration: 1000,
+    });
   }
 }
