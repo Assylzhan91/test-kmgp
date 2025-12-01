@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 
 import { AuthService } from '../../../core/services/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { StatusOrder } from '../../../core/models/orders.models';
 
 @Component({
   selector: 'kmgp-login',
@@ -34,7 +35,18 @@ export class LoginComponent {
 
       if (success) {
         this.openSnackBar();
-        this.router.navigate(['/orders']).then();
+        this.router
+          .navigate(['/orders'], {
+            queryParams: {
+              _page: 1,
+              _limit: 5,
+              _sort: 'createdAt',
+              _order: 'desc',
+              status: StatusOrder.All,
+              q: '',
+            },
+          })
+          .then();
       }
       this.isLoading.set(false);
     }, 1000);

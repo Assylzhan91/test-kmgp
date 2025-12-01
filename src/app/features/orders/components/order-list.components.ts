@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, DestroyRef, inject, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -14,9 +14,10 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { catchError, delay } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { of } from 'rxjs';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { OrderService } from '../../../core/services/order.service';
-import { Order } from '../../../core/models/orders.models';
+import { Order, OrderListQueryParams } from '../../../core/models/orders.models';
 import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
@@ -42,12 +43,20 @@ import { AuthService } from '../../../core/services/auth.service';
 export class OrderListComponent implements OnInit, AfterViewInit {
   private readonly destroyRef = inject(DestroyRef);
   private readonly orderService = inject(OrderService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
   protected readonly authService = inject(AuthService);
 
   loading = true;
   totalOrders = 0;
-  pageSize = 10;
+  pageSize = 5;
   pageSizeOptions = [5, 10, 25, 50];
+
+  currentPage = 1;
+  currentSort = 'createdAt';
+  currentOrder = 'desc';
+  currentStatus = 'All';
+  currentSearch = '';
 
   displayedColumns: string[] = ['number', 'customerName', 'status', 'total', 'createdAt'];
   orders = new MatTableDataSource<Order>([]);
@@ -66,7 +75,27 @@ export class OrderListComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort | undefined;
 
   ngOnInit(): void {
-    this.loadOrders();
+    this.loading = true;
+
+    this.route.queryParams
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((params: OrderListQueryParams | Params) => {
+        this.currentPage = Number(params['_page']) || 1;
+        this.pageSize = Number(params['_limit']) || 5;
+        this.currentSort = params['_sort'] || 'createdAt';
+        this.currentOrder = params['_order'] || 'desc';
+        this.currentStatus = params['status'] || 'all';
+        this.currentSearch = params['q'] || '';
+
+        this.searchControl.setValue(this.currentSearch, { emitEvent: false });
+
+        const tabIndex = this.tabs.findIndex(tab => tab.value === this.currentStatus);
+        if (tabIndex !== -1) {
+          this.selectedTab = tabIndex;
+        }
+        this.loadOrders();
+      });
+
     this.subscribeToSearch();
   }
 
@@ -84,11 +113,19 @@ export class OrderListComponent implements OnInit, AfterViewInit {
   private subscribeToSearch(): void {
     this.searchControl.valueChanges
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => this.applyFilters());
+      .subscribe(searchValue => {
+        this.currentSearch = searchValue || '';
+        this.currentPage = 1;
+        this.updateQueryParams();
+        this.applyFilters();
+      });
   }
 
   onTabChange(index: number): void {
     this.selectedTab = index;
+    this.currentStatus = this.tabs[index].value;
+    this.currentPage = 1;
+    this.updateQueryParams();
     this.applyFilters();
   }
 
@@ -141,7 +178,31 @@ export class OrderListComponent implements OnInit, AfterViewInit {
           if (this.sort) {
             this.orders.sort = this.sort;
           }
+          this.applyFilters();
         });
       });
+  }
+  handlePageEvent(e: PageEvent): void {
+    this.currentPage = e.pageIndex + 1;
+    this.pageSize = e.pageSize;
+    this.updateQueryParams();
+    this.applyFilters();
+  }
+
+  private updateQueryParams(): void {
+    this.router
+      .navigate([], {
+        relativeTo: this.route,
+        queryParams: {
+          _page: this.currentPage,
+          _limit: this.pageSize,
+          _sort: this.currentSort,
+          _order: this.currentOrder,
+          status: this.currentStatus,
+          q: this.currentSearch,
+        },
+        queryParamsHandling: 'merge',
+      })
+      .then();
   }
 }

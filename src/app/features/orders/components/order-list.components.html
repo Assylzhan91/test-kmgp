@@ -71,6 +71,7 @@
       [pageSizeOptions]="pageSizeOptions"
       showFirstLastButtons
       aria-label="Выберите страницу заказов"
+      (page)="handlePageEvent($event)"
     >
     </mat-paginator>
     } @else {
