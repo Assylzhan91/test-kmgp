@@ -16,9 +16,9 @@ import { CommonModule } from '@angular/common';
 import { of } from 'rxjs';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
-import { OrderService } from '../../../core/services/order.service';
-import { Order, OrderListQueryParams } from '../../../core/models/orders.models';
-import { AuthService } from '../../../core/services/auth.service';
+import { OrderService } from '../../../../core/services/order.service';
+import { Order, OrderListQueryParams } from '../../../../core/models/orders.models';
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'kmgp-orders-list',
@@ -75,11 +75,11 @@ export class OrderListComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort | undefined;
 
   ngOnInit(): void {
-    this.loading = true;
-
     this.route.queryParams
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((params: OrderListQueryParams | Params) => {
+        this.loading = true;
+
         this.currentPage = Number(params['_page']) || 1;
         this.pageSize = Number(params['_limit']) || 5;
         this.currentSort = params['_sort'] || 'createdAt';
@@ -187,6 +187,10 @@ export class OrderListComponent implements OnInit, AfterViewInit {
     this.pageSize = e.pageSize;
     this.updateQueryParams();
     this.applyFilters();
+  }
+
+  onRowClick(order: Order): void {
+    this.router.navigate(['/orders', order.id]);
   }
 
   private updateQueryParams(): void {

@@ -9,6 +9,11 @@ export const ORDERS_ROUTES: Routes = [
   {
     path: '',
     loadComponent: () =>
-      import('./components/order-list.components').then(c => c.OrderListComponent),
+      import('./components/order-list/order-list.components').then(c => c.OrderListComponent),
+  },
+  {
+    path: ':id',
+    loadComponent: () =>
+      import('./components/order-detail/order-detail.component').then(c => c.OrderDetailComponent),
   },
 ];
